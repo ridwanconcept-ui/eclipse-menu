@@ -1,0 +1,262 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --gold: #d0ac6b;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 text-cream font-sans antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(900px 500px at 50% -8%, rgba(208, 172, 107, 0.11), transparent 70%),
+      radial-gradient(700px 420px at 100% 100%, rgba(208, 172, 107, 0.05), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+
+  ::selection {
+    background: rgba(208, 172, 107, 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Thin, unobtrusive scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(208, 172, 107, 0.25);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .eyebrow {
+    @apply text-[11px] uppercase tracking-[0.28em] text-gold-400/90 font-medium;
+  }
+
+  .hairline {
+    @apply border-white/[0.07];
+  }
+
+  .card {
+    @apply rounded-2xl border border-white/[0.07] bg-ink-700/70 backdrop-blur-[2px];
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-white/10 bg-ink-800/80 px-3.5 py-2.5 text-sm text-cream
+      placeholder:text-smoke/50 focus:border-gold-400/60 focus:outline-none focus:ring-1 focus:ring-gold-400/40
+      transition-colors;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-[0.14em] text-smoke;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium transition-all
+      duration-200 disabled:cursor-not-allowed disabled:opacity-50 select-none;
+  }
+
+  .btn-gold {
+    @apply btn bg-gold-300 px-5 py-2.5 text-ink-900 hover:bg-gold-200 active:scale-[0.98] shadow-[0_10px_30px_-12px_rgba(208,172,107,0.55)];
+  }
+
+  .btn-ghost {
+    @apply btn border border-white/[0.12] bg-white/[0.03] px-4 py-2 text-cream/90 hover:border-gold-400/40 hover:text-gold-100 active:scale-[0.98];
+  }
+
+  .btn-quiet {
+    @apply btn px-3 py-1.5 text-smoke hover:text-cream;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em];
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+
+  .gold-rule {
+    background-image: linear-gradient(90deg, transparent, rgba(208, 172, 107, 0.55), transparent);
+    height: 1px;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.09) 37%, rgba(255, 255, 255, 0.04) 63%);
+    background-size: 400px 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+
+  /* Elegant placeholder used when a product has no photo */
+  .placeholder-tile {
+    background-image:
+      radial-gradient(120% 120% at 20% 15%, rgba(208, 172, 107, 0.22), transparent 55%),
+      radial-gradient(120% 120% at 85% 85%, rgba(208, 172, 107, 0.1), transparent 60%),
+      linear-gradient(160deg, #17171d, #0c0c10);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .print-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Print-ready QR table cards (A4)
+ * ------------------------------------------------------------------ */
+.print-sheet {
+  display: none;
+}
+
+@page {
+  size: A4;
+  margin: 8mm;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-sheet,
+  .print-sheet * {
+    visibility: visible;
+  }
+  .print-sheet {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #ffffff;
+    color: #111111;
+    padding: 0;
+  }
+  .print-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6mm;
+  }
+  .print-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #d8cfba;
+    border-radius: 4mm;
+    padding: 7mm 6mm;
+    text-align: center;
+    background: #fffdf8;
+    color: #14130f;
+  }
+  .print-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5mm;
+    margin-bottom: 3mm;
+  }
+  .print-logo {
+    width: 9mm;
+    height: 9mm;
+    border-radius: 999px;
+    object-fit: cover;
+  }
+  .print-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12pt;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    text-align: left;
+  }
+  .print-tagline {
+    font-size: 6.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8a7135;
+    text-align: left;
+  }
+  .print-qr {
+    display: block;
+    width: 52mm;
+    height: 52mm;
+    margin: 0 auto;
+  }
+  .print-cta {
+    margin-top: 3mm;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12pt;
+    letter-spacing: 0.04em;
+  }
+  .print-table {
+    margin-top: 1.5mm;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a7135;
+  }
+  .print-hint {
+    margin-top: 2mm;
+    font-size: 6.8pt;
+    color: #57534a;
+  }
+  .print-url {
+    margin-top: 1.5mm;
+    font-family: ui-monospace, monospace;
+    font-size: 5.6pt;
+    color: #8a8578;
+    word-break: break-all;
+  }
+}
